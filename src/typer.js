@@ -38,9 +38,10 @@ export const Typer = p => {
     display: 'inline-block',
     transform: `scale(${cursorWidth}, 1)`
   }
-  const nestedMap = (children, func) => Children.map(children, child => ({ val: func(child) })).map(el => el.val)
-  const inner = nestedMap(children, child => child.props.children)
-  const items = inner.map(line => {
+  const inner = Children.map(children, child => child.props)
+  const inners = inner.map(({ children }) => children)
+  const props = inner.map(({ children, ...rest }) => ({ ...rest }))
+  const items = inners.map(line => {
     if (typeof line === 'string') return line.split('')
     if (typeof line === 'undefined') return []
     if (!Array.isArray(line)) return [line]
@@ -53,6 +54,7 @@ export const Typer = p => {
   const [curItem, setItem] = useState(0)
   const [curSlice, setSlice] = useState(0)
   const item = items[curItem]
+  const prop = props[curItem]
   const isEmpty = item.length <= 0
   const delay = (() => {
     if (!loop && curItem === items.length - 1 && curSlice === -item.length) return null
@@ -82,7 +84,7 @@ export const Typer = p => {
         {prefix}{' '}
         {item}
       </span>
-      <span aria-hidden>
+      <span aria-hidden {...prop}>
         {prefix}{' '}
         {item.slice(0, Math.abs(curSlice))}
       </span>
