@@ -35,7 +35,7 @@ export const Typer = p => {
     animation: `${animation} ${cursorDelay}s infinite`,
     marginLeft: '3px',
     display: 'inline-block',
-    transform: 'scale(${cursorWidth}, 1)'
+    transform: `scale(${cursorWidth}, 1)`
   }
   const nestedMap = (children, func) => Children.map(children, child => ({ val: func(child) })).map(el => el.val)
   const inner = nestedMap(children, child => child.props.children)
