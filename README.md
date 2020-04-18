@@ -1,0 +1,113 @@
+
+
+# React Yet Another Typer
+
+[![img](https://github.com/woofers/react-yat/workflows/build/badge.svg)](https://github.com/woofers/react-yat/actions) [![img](https://david-dm.org/woofers/react-yat.svg)](https://www.npmjs.com/package/react-yat) [![img](https://badge.fury.io/js/react-yat.svg)](https://www.npmjs.com/package/react-yat) [![img](https://img.shields.io/npm/dt/react-yat.svg)](https://www.npmjs.com/package/react-yat) [![img](https://img.shields.io/npm/l/react-yat.svg)](https://github.com/woofers/react-yat/blob/master/LICENSE)
+
+`react-yat` is yet another typer component for React.
+
+
+# Why?
+
+While many other React typer components exists, `react-yat`
+aims to be the most accessible and simplest to use.
+
+This is achieved by allowing users to pass React children to the typer
+rather than a list of strings.  This allows visual content
+to be properly described by way of `ARIA` attributes.
+It also comes with the advantage that many elements can
+be wrapped to form a single token to be typed out as one
+or styling each text token differently.
+
+Additionally `react-yat` uses a visually hidden
+`aria-live` region which contains the complete
+typed out value which is read by screenreaders.
+
+
+# Installation
+
+**Yarn**
+
+    yarn add react-yat
+
+**npm**
+
+    npm install react-yat
+
+
+# Usage
+
+```jsx
+import React from 'react'
+import { Typer, TyperElement } from 'react-yat'
+
+const App = () => {
+  return (
+    <h4>
+      <Typer prefix="I" cursorWidth={3.9}>
+        <TyperElement>build games <span role="img" aria-label="controller">🎮</span></TyperElement>
+        <TyperElement>design apps <span role="img" aria-label="paintbrush">🖌</span></TyperElement>
+        <TyperElement>craft tools <span role="img" aria-label="wrench">🔧</span></TyperElement>
+        <TyperElement>have fun <span role="img" aria-label="smile">:)</span></TyperElement>
+        <TyperElement><span>stick</span> <span>toghther</span></TyperElement>
+      </Typer>
+    </h4>
+  )
+}
+
+export default App
+```
+
+Simply add the component to the React application using JSX.
+
+
+## Props
+
+
+### Children
+
+The elements to typed out. **Required**
+
+Each direct child of `Typer` must be of type `TyperElement`.
+
+
+### Prefix
+
+`prefix` is appended to the start of the typed out values. **Default:** None
+
+Can be any value of type `ReactNode`.
+
+
+### Cursor
+
+`cursor` indicates if the cursor is displayed. **Default:** `true`
+
+
+### Cursor Delay
+
+`cursorDelay` indicates the time it takes for the cursor to blink in seconds. **Default:** `2`
+
+
+### Cursor Width
+
+`cursorWidth` is a scale factor applied to the width of the cursor. **Default:** `1.75`
+
+
+### Type Delay
+
+`typeDelay` indicates the time it takes for a single token to be added in milliseconds. **Default:** `65`
+
+
+### Delete Delay
+
+`deleteDelay` indicates the time it takes for a single token to be deleted in milliseconds. **Default:** `55`
+
+
+### Completed Delay
+
+`completedDelay` indicates how long the typer waits when it is finished typing in milliseconds. **Default:** `3000`
+
+
+### Empty Delay
+
+`emptyDelay` indicates how long the typer waits when it is empty in milliseconds. **Default:** `1000`

@@ -1,6 +1,6 @@
 {
   "name": "react-yat",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "React Yet Another Typer",
   "main": "lib/react-yat.js",
   "src": "src/typer.js",
