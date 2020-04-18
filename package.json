@@ -4,6 +4,7 @@
   "description": "React Yet Another Type",
   "main": "lib/react-yat.js",
   "src": "src/typer.js",
+  "types": "lib/index.d.ts",
   "files": [
     "lib",
     "package.json",
@@ -14,7 +15,7 @@
     "start": "yarn watch",
     "build": "NODE_ENV=production webpack",
     "watch": "NODE_ENV=development webpack --watch",
-    "clean": "rimraf lib",
+    "clean": "rimraf lib/react-yat.js",
     "test": "echo \"No tests \" && exit 0"
   },
   "repository": {
