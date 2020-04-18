@@ -20,6 +20,9 @@ module.exports = {
   },
   externals: [nodeExternals()],
   mode: 'production',
+  optimization: {
+    minimize: mode === 'production'
+  },
   module: {
     rules: [
       {
@@ -39,16 +42,22 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader'
-      },
-      {
-        test: /\.css$/,
-        loader: 'css-loader',
-        query: {
-          modules: {
-            localIdentName: '[name]__[local]___[hash:base64:5]'
+        use: [
+          {
+            loader: 'style-loader',
+            options: {
+              injectType: 'lazyStyleTag'
+            }
+          },
+          {
+            loader: 'css-loader',
+            query: {
+              modules: {
+                localIdentName: '[name]__[local]___[hash:base64:5]'
+              }
+            }
           }
-        }
+        ]
       }
     ]
   }

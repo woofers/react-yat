@@ -1,7 +1,7 @@
-import React, { Children, useState } from 'react'
+import React, { Children, useState, useEffect } from 'react'
 import useInterval from './use-interval'
 import PropTypes from 'prop-types'
-import { animation } from './typer.css'
+import styles from './typer.css'
 
 const hidden = {
   position: 'absolute',
@@ -31,6 +31,7 @@ export const Typer = p => {
     completedDelay,
     ...rest
   } = p
+  const { animation } = styles.locals
   const wide = {
     animation: `${animation} ${cursorDelay}s infinite`,
     marginLeft: '3px',
@@ -60,6 +61,10 @@ export const Typer = p => {
     if (curSlice < 0) return deleteDelay
     return typeDelay
   })()
+  useEffect(() => {
+    styles.use()
+    return () => styles.unuse()
+  }, [])
   useInterval(() => {
     setSlice(curSlice => {
       if (item.length <= curSlice && !isEmpty) {
