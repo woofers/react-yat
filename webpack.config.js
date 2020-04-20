@@ -5,14 +5,20 @@ const getPath = path => path.substring(0, path.lastIndexOf('/'))
 const getFile = path => path.substring(path.lastIndexOf('/') + 1)
 const mode = process.env.NODE_ENV
 const PeerDepsExternalsPlugin = require('peer-deps-externals-webpack-plugin')
+const webpack = require('webpack')
+const { EnvironmentPlugin } = webpack
+
+const isDev = mode !== 'production'
+const name = `${json.name}${isDev ? '.dev' : ''}`
 
 module.exports = {
   plugins: [
-    new PeerDepsExternalsPlugin()
+    new PeerDepsExternalsPlugin(),
+    new EnvironmentPlugin(['NODE_ENV'])
   ],
   entry: `./${json.src}`,
   output: {
-    filename: getFile(json.main),
+    filename: `${name}.js`,
     path: path.resolve(__dirname, getPath(json.main)),
     library: json.name,
     libraryTarget: 'umd',
@@ -20,9 +26,6 @@ module.exports = {
   },
   externals: [nodeExternals()],
   mode: 'production',
-  optimization: {
-    minimize: mode === 'production'
-  },
   module: {
     rules: [
       {

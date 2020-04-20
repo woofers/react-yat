@@ -3,6 +3,8 @@ import useInterval from './use-interval'
 import PropTypes from 'prop-types'
 import styles from './typer.css'
 
+console.log(process.env.WOOF)
+
 const hidden = {
   position: 'absolute',
   left: '-10000px',
@@ -14,6 +16,7 @@ const hidden = {
 
 export const Typer = p => {
   if (process.env.NODE_ENV !== 'production') {
+    console.log('I AM A DOG')
     const err = validator(p, 'children', Typer.name)
     if (err) throw err
   }

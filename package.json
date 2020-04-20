@@ -2,7 +2,7 @@
   "name": "react-yat",
   "version": "1.0.4",
   "description": "React Yet Another Typer",
-  "main": "lib/react-yat.js",
+  "main": "lib/index.js",
   "src": "src/typer.js",
   "types": "lib/index.d.ts",
   "files": [
@@ -13,9 +13,8 @@
   ],
   "scripts": {
     "start": "yarn watch",
-    "build": "NODE_ENV=production webpack",
-    "watch": "NODE_ENV=development webpack --watch",
-    "clean": "rimraf lib/react-yat.js",
+    "build": "NODE_ENV=production webpack && NODE_ENV=development webpack",
+    "clean": "rimraf lib/react-yat.js lib/react-yat.dev.js",
     "test": "echo \"No tests \" && exit 0"
   },
   "repository": {
