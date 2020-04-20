@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "start": "yarn watch",
-    "build": "NODE_ENV=production webpack && NODE_ENV=development webpack",
+    "build": "webpack",
     "clean": "rimraf lib/react-yat.js lib/react-yat.dev.js",
     "test": "echo \"No tests \" && exit 0"
   },
