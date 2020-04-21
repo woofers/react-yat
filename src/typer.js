@@ -3,8 +3,6 @@ import useInterval from './use-interval'
 import PropTypes from 'prop-types'
 import styles from './typer.css'
 
-console.log(process.env.WOOF)
-
 const hidden = {
   position: 'absolute',
   left: '-10000px',
@@ -16,7 +14,6 @@ const hidden = {
 
 export const Typer = p => {
   if (process.env.NODE_ENV !== 'production') {
-    console.log('I AM A DOG')
     const err = validator(p, 'children', Typer.name)
     if (err) throw err
   }
@@ -101,28 +98,32 @@ export const TyperElement = p => {
   return <span {...rest}>{children}</span>
 }
 
-const validator = (props, key, component) => {
-  const validate = (child, prop) => {
-    if (!child || child.type !== TyperElement) {
+let validator = () => {}
+
+if (process.env.NODE_ENV !== 'production') {
+  validator = (props, key, component) => {
+    const validate = (child, prop) => {
+      if (!child || child.type !== TyperElement) {
+        return new Error(
+          `\`${prop}\` supplied to \`${component}\` must be of type \`${TyperElement.name}\`.`
+        )
+      }
+    }
+    const children = props[key]
+    if (!children || children.length === 0) {
       return new Error(
-        `\`${prop}\` supplied to \`${component}\` must be of type \`${TyperElement.name}\`.`
+        `The prop \`${key}\` is marked as required in \`${component}\`, but it is empty or \`undefined\`.`
       )
     }
-  }
-  const children = props[key]
-  if (!children || children.length === 0) {
-    return new Error(
-      `The prop \`${key}\` is marked as required in \`${component}\`, but it is empty or \`undefined\`.`
-    )
-  }
-  if (Array.isArray(children)) {
-    for (const [i, child] of children.entries()) {
-      const result = validate(child, `${key}[${i}]`)
-      if (result) return result
+    if (Array.isArray(children)) {
+      for (const [i, child] of children.entries()) {
+        const result = validate(child, `${key}[${i}]`)
+        if (result) return result
+      }
     }
-  }
-  else {
-    return validate(children, key)
+    else {
+      return validate(children, key)
+    }
   }
 }
 
