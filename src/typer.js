@@ -1,7 +1,8 @@
 import React, { Children, useState, useEffect } from 'react'
 import useInterval from './use-interval'
-import PropTypes from 'prop-types'
 import styles from './typer.css'
+
+const PropTypes = process.env.NODE_ENV !== 'production' ? require('prop-types') : {}
 
 const hidden = {
   position: 'absolute',
@@ -93,13 +94,9 @@ export const Typer = p => {
   )
 }
 
-export const TyperElement = p => {
-  const { children, ...rest } = p
-  return <span {...rest}>{children}</span>
-}
+export const TyperElement = p => <span {...p} />
 
-let validator = () => {}
-
+let validator
 if (process.env.NODE_ENV !== 'production') {
   validator = (props, key, component) => {
     const validate = (child, prop) => {
@@ -125,40 +122,38 @@ if (process.env.NODE_ENV !== 'production') {
       return validate(children, key)
     }
   }
-}
 
-const childrenProp = PropTypes.oneOfType([
-  PropTypes.arrayOf(PropTypes.node),
-  PropTypes.node,
-])
+  const childrenProp = PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ])
 
-TyperElement.propTypes = {
-  children: childrenProp
+  TyperElement.propTypes = {
+    children: childrenProp
+  }
+
+  Typer.propTypes = {
+    children: validator,
+    prefix: childrenProp,
+    loop: PropTypes.bool,
+    cursor: PropTypes.bool,
+    cursorDelay: PropTypes.number,
+    cursorWidth: PropTypes.number,
+    className: PropTypes.string,
+    typeDelay: PropTypes.number,
+    deleteDelay: PropTypes.number,
+    emptyDelay: PropTypes.number,
+    completedDelay: PropTypes.number
+  }
 }
 
 Typer.defaultProps = {
-  prefix: '',
   loop: true,
   cursor: true,
   cursorDelay: 2,
   cursorWidth: 1.75,
-  className: '',
   typeDelay: 65,
   deleteDelay: 55,
   emptyDelay: 1000,
   completedDelay: 3000
-}
-
-Typer.propTypes = {
-  children: validator,
-  prefix: childrenProp,
-  loop: PropTypes.bool,
-  cursor: PropTypes.bool,
-  cursorDelay: PropTypes.number,
-  cursorWidth: PropTypes.number,
-  className: PropTypes.string,
-  typeDelay: PropTypes.number,
-  deleteDelay: PropTypes.number,
-  emptyDelay: PropTypes.number,
-  completedDelay: PropTypes.number
 }
