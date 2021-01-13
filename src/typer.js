@@ -93,15 +93,10 @@ export const Typer = p => {
   )
 }
 
-export const TyperElement = p => {
-  const { children, ...rest } = p
-  return <span {...rest}>{children}</span>
-}
-
-let validator = () => {}
+export const TyperElement = p => <span {...p} />
 
 if (process.env.NODE_ENV !== 'production') {
-  validator = (props, key, component) => {
+  const validator = (props, key, component) => {
     const validate = (child, prop) => {
       if (!child || child.type !== TyperElement) {
         return new Error(
@@ -125,40 +120,38 @@ if (process.env.NODE_ENV !== 'production') {
       return validate(children, key)
     }
   }
-}
 
-const childrenProp = PropTypes.oneOfType([
-  PropTypes.arrayOf(PropTypes.node),
-  PropTypes.node,
-])
+  const childrenProp = PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ])
 
-TyperElement.propTypes = {
-  children: childrenProp
+  TyperElement.propTypes = {
+    children: childrenProp
+  }
+
+  Typer.propTypes = {
+    children: validator,
+    prefix: childrenProp,
+    loop: PropTypes.bool,
+    cursor: PropTypes.bool,
+    cursorDelay: PropTypes.number,
+    cursorWidth: PropTypes.number,
+    className: PropTypes.string,
+    typeDelay: PropTypes.number,
+    deleteDelay: PropTypes.number,
+    emptyDelay: PropTypes.number,
+    completedDelay: PropTypes.number
+  }
 }
 
 Typer.defaultProps = {
-  prefix: '',
   loop: true,
   cursor: true,
   cursorDelay: 2,
   cursorWidth: 1.75,
-  className: '',
   typeDelay: 65,
   deleteDelay: 55,
   emptyDelay: 1000,
   completedDelay: 3000
-}
-
-Typer.propTypes = {
-  children: validator,
-  prefix: childrenProp,
-  loop: PropTypes.bool,
-  cursor: PropTypes.bool,
-  cursorDelay: PropTypes.number,
-  cursorWidth: PropTypes.number,
-  className: PropTypes.string,
-  typeDelay: PropTypes.number,
-  deleteDelay: PropTypes.number,
-  emptyDelay: PropTypes.number,
-  completedDelay: PropTypes.number
 }
