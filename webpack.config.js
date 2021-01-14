@@ -4,8 +4,8 @@ const json = require('./package.json')
 const getPath = path => path.substring(0, path.lastIndexOf('/'))
 const getFile = path => path.substring(path.lastIndexOf('/') + 1)
 const mode = process.env.NODE_ENV
-const PeerDepsExternalsPlugin = require('peer-deps-externals-webpack-plugin')
 const webpack = require('webpack')
+const ESLintPlugin = require('eslint-webpack-plugin');
 const { DefinePlugin } = webpack
 
 const config = mode => {
@@ -13,9 +13,12 @@ const config = mode => {
   const name = `${json.name}${isDev ? '.dev' : ''}`
   return {
     plugins: [
-      new PeerDepsExternalsPlugin(),
       new DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(mode)
+      }),
+      new ESLintPlugin({
+        failOnWarning: true,
+        failOnError: true
       })
     ],
     entry: `./${json.src}`,
@@ -26,25 +29,15 @@ const config = mode => {
       libraryTarget: 'umd',
       globalObject: 'this'
     },
-    externals: [nodeExternals()],
+    externals: [nodeExternals(), 'react'],
     mode: 'production',
     optimization: {
-      minimize: !isDev,
-      namedChunks: isDev,
-      namedModules: isDev
+      minimize: true,
+      chunkIds: isDev ? 'named' : 'natural',
+      moduleIds: isDev ? 'named' : 'natural'
     },
     module: {
       rules: [
-        {
-          enforce: 'pre',
-          test: /\.js$/,
-          exclude: /(node_modules|bower_components)/,
-          loader: 'eslint-loader',
-          options: {
-            failOnWarning: true,
-            failOnError: true
-          }
-        },
         {
           test: /\.js$/,
           exclude: /(node_modules|bower_components)/,
@@ -61,7 +54,7 @@ const config = mode => {
             },
             {
               loader: 'css-loader',
-              query: {
+              options: {
                 modules: {
                   localIdentName: '[name]__[local]___[hash:base64:5]'
                 }
