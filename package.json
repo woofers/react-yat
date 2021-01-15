@@ -3,7 +3,9 @@
   "version": "1.0.7",
   "description": "React Yet Another Typer",
   "main": "lib/index.js",
-  "src": "src/typer.js",
+  "module": "lib/index.module.js",
+  "sideEffects": false,
+  "src": "src/index.js",
   "types": "lib/index.d.ts",
   "files": [
     "lib",
@@ -13,8 +15,13 @@
   ],
   "scripts": {
     "start": "yarn watch",
-    "build": "webpack",
-    "clean": "rimraf lib/react-yat.js lib/react-yat.dev.js",
+    "build:module": "microbundle --no-pkg-main --no-sourcemap --no-generateTypes --jsx React.createElement --define __isDev__=false -i src/index.js -o lib/react-yat.module.js -f es",
+    "build:umd": "microbundle --no-pkg-main --no-sourcemap --no-generateTypes --jsx React.createElement --define __isDev__=false -i src/index.js -o lib/react-yat.js -f umd",
+    "build:dev:module": "microbundle --no-pkg-main --no-sourcemap --no-generateTypes --jsx React.createElement --define __isDev__=true -i src/index.js -o lib/react-yat.module.dev.js -f es",
+    "build:dev:umd": "microbundle --no-pkg-main --no-sourcemap --no-generateTypes --jsx React.createElement --define __isDev__=true -i src/index.js -o lib/react-yat.dev.js -f umd",
+    "build:types": "cp src/index.d.ts lib/index.d.ts",
+    "build": "yarn build:dev:module && yarn build:dev:umd && yarn build:module && yarn build:umd && yarn build:types",
+    "clean": "rimraf lib/react-yat.js lib/react-yat.dev.js lib/react-yat.module.js lib/react-yat.module.dev.js lib/index.d.ts",
     "test": "echo \"No tests \" && exit 0"
   },
   "repository": {
@@ -36,23 +43,8 @@
     "react": "^0.13.0 || ^0.14.0 || >=15"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/plugin-proposal-class-properties": "^7.12.1",
-    "@babel/preset-env": "^7.12.11",
-    "@babel/preset-react": "^7.12.10",
-    "babel-eslint": "^10.0.3",
-    "babel-loader": "^8.0.6",
-    "css-loader": "^5.0.1",
-    "eslint": "^7.17.0",
-    "eslint-loader": "^4.0.2",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "eslint-webpack-plugin": "^2.4.1",
     "microbundle": "^0.13.0",
-    "rimraf": "^3.0.0",
-    "style-loader": "^2.0.0",
-    "webpack": "^5.14.0",
-    "webpack-cli": "^4.3.1",
-    "webpack-node-externals": "^2.5.2"
+    "rimraf": "^3.0.0"
   },
   "dependencies": {
     "prop-types": "^15.7.2"

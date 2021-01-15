@@ -23,3 +23,6 @@ yarn-error.log*
 
 lib/react-yat.js
 lib/react-yat.dev.js
+lib/react-yat.module.dev.js
+lib/react-yat.module.js
+lib/index.d.ts
