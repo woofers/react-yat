@@ -1,8 +1,7 @@
 import React, { Children, useState, useEffect } from 'react'
 import useInterval from './use-interval'
 import useInjectStyle from './use-inject-style'
-
-const PropTypes = process.env.NODE_ENV !== 'production' ? require('prop-types') : {}
+import PropTypes from './props'
 
 const hidden = {
   position: 'absolute',
@@ -16,7 +15,7 @@ const hidden = {
 const animation = '_react-yat'
 
 export const Typer = p => {
-  if (process.env.NODE_ENV !== 'production') {
+  if (__isDev__) {
     const err = validator(p, 'children', Typer.name)
     if (err) throw err
   }
@@ -107,7 +106,7 @@ export const Typer = p => {
 export const TyperElement = p => <span {...p} />
 
 let validator
-if (process.env.NODE_ENV !== 'production') {
+if (__isDev__) {
   validator = (props, key, component) => {
     const validate = (child, prop) => {
       if (!child || child.type !== TyperElement) {
