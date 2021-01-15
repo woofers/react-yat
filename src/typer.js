@@ -1,6 +1,6 @@
 import React, { Children, useState, useEffect } from 'react'
 import useInterval from './use-interval'
-import styles from './typer.css'
+import useInjectStyle from './use-inject-style'
 
 const PropTypes = process.env.NODE_ENV !== 'production' ? require('prop-types') : {}
 
@@ -12,6 +12,8 @@ const hidden = {
   height: '1px',
   overflow: 'hidden'
 }
+
+const animation = '_react-yat'
 
 export const Typer = p => {
   if (process.env.NODE_ENV !== 'production') {
@@ -32,7 +34,6 @@ export const Typer = p => {
     completedDelay,
     ...rest
   } = p
-  const { animation } = styles.locals
   const wide = {
     animation: `${animation} ${cursorDelay}s infinite`,
     marginLeft: '3px',
@@ -64,10 +65,19 @@ export const Typer = p => {
     if (curSlice < 0) return deleteDelay
     return typeDelay
   })()
-  useEffect(() => {
-    styles.use()
-    return () => styles.unuse()
-  }, [])
+  useInjectStyle(`
+    @keyframes ${animation} {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+  `)
   useInterval(() => {
     setSlice(curSlice => {
       if (item.length <= curSlice && !isEmpty) {
