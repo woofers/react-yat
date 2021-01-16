@@ -5,10 +5,10 @@ import PropTypes from './props'
 
 const hidden = {
   position: 'absolute',
-  left: '-10000px',
+  left: 1e4,
   top: 'auto',
-  width: '1px',
-  height: '1px',
+  width: 1,
+  height: 1,
   overflow: 'hidden'
 }
 
@@ -40,7 +40,7 @@ export const Typer = p => {
   } = p
   const wide = {
     animation: `${animation} ${cursorDelay}s infinite`,
-    marginLeft: '3px',
+    marginLeft: 3,
     display: 'inline-block',
     transform: `scale(${cursorWidth}, 1)`
   }
