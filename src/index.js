@@ -12,7 +12,12 @@ const hidden = {
   overflow: 'hidden'
 }
 
-const animation = '_react-yat'
+const animation = '_yat'
+const style = `@keyframes ${animation} {` +
+  `0%`   + `{opacity:0;}` +
+  `50%`  + `{opacity:1;}` +
+  `100%` + `{opacity:0;}` +
+`}`
 
 export const Typer = p => {
   if (__isDev__) {
@@ -64,19 +69,7 @@ export const Typer = p => {
     if (curSlice < 0) return deleteDelay
     return typeDelay
   })()
-  useInjectStyle(`
-    @keyframes ${animation} {
-      0% {
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-      }
-    }
-  `)
+  useInjectStyle(style)
   useInterval(() => {
     setSlice(curSlice => {
       if (item.length <= curSlice && !isEmpty) {
