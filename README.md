@@ -2,7 +2,7 @@
 
 # React Yet Another Typer
 
-[![img](https://github.com/woofers/react-yat/workflows/build/badge.svg)](https://github.com/woofers/react-yat/actions) [![img](https://david-dm.org/woofers/react-yat.svg)](https://www.npmjs.com/package/react-yat) [![img](https://badge.fury.io/js/react-yat.svg)](https://www.npmjs.com/package/react-yat) [![img](https://img.shields.io/npm/dt/react-yat.svg)](https://www.npmjs.com/package/react-yat) [![img](https://img.shields.io/npm/l/react-yat.svg)](https://github.com/woofers/react-yat/blob/master/LICENSE)
+[![img](https://github.com/woofers/react-yat/workflows/build/badge.svg)](https://github.com/woofers/react-yat/actions) [![img](https://img.shields.io/david/woofers/react-yat)](https://www.npmjs.com/package/react-yat) [![img](https://badge.fury.io/js/react-yat.svg)](https://www.npmjs.com/package/react-yat) [![img](https://img.shields.io/npm/dt/react-yat.svg)](https://www.npmjs.com/package/react-yat) [![img](https://badgen.net/bundlephobia/minzip/react-yat)](https://bundlephobia.com/result?p=react-yat) [![img](https://img.shields.io/npm/l/react-yat.svg)](https://github.com/woofers/react-yat/blob/master/LICENSE)
 
 `react-yat` is yet another typer component for React.
 
