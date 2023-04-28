@@ -46,7 +46,7 @@ export const Typer = p => {
   }
   const inner = Children.map(children, child => child.props)
   const inners = inner.map(({ children }) => children)
-  const props = inner.map(({ children, ...rest }) => ({ ...rest }))
+  const props = inner.map(data => Object.assign({}, data))
   const items = inners.map(line => {
     if (typeof line === 'string') return line.split('')
     if (typeof line === 'undefined') return []
@@ -87,11 +87,11 @@ export const Typer = p => {
         {prefix}{' '}
         {item}
       </span>
-      <span aria-hidden {...prop}>
+      <span {...Object.assign({}, prop, { "aria-hidden": true, children: undefined })}>
         {prefix}{' '}
         {item.slice(0, Math.abs(curSlice))}
       </span>
-      { cursor && <span aria-hidden style={wide} className={className}>|</span> }
+      { cursor && <span {...Object.assign({ "aria-hidden": true, style: wide, className })}>|</span> }
     </span>
   )
 }
