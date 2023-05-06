@@ -28,12 +28,15 @@ typed out value which is read by screenreaders.
 
 **Yarn**
 
-    yarn add react-yat
+```yarn
+yarn add react-yat
+```
 
 **npm**
 
-    npm install react-yat
-
+```npm
+npm install react-yat
+```
 
 # Usage
 
