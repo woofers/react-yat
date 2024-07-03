@@ -1,13 +1,15 @@
-import React, { SFC, ReactNode, ReactNodeArray, Props, HTMLProps } from 'react'
+import React from 'react'
 
-interface TyperElementProps extends Props<TyperElementProps>, HTMLProps<HTMLSpanElement> {
-  children?: ReactNode | ReactNodeArray
+type Node = React.ReactNode | React.ReactNode[]
+
+type TyperElementProps = React.HTMLProps<HTMLSpanElement> & {
+  children?: Node
   ref?: string
 }
 
-interface TyperProps extends Props<TyperProps>, HTMLProps<HTMLSpanElement> {
-  prefix: ReactNode | ReactNodeArray
-  children: ReactNode | ReactNodeArray
+type TyperProps = React.HTMLProps<HTMLSpanElement> & {
+  prefix: Node
+  children: Node
   loop?: boolean
   cursor?: boolean
   cursorWidth?: number
@@ -20,8 +22,8 @@ interface TyperProps extends Props<TyperProps>, HTMLProps<HTMLSpanElement> {
   ref?: string
 }
 
-export declare const Typer: SFC<TyperProps>
+export declare const Typer: React.FC<TyperProps>
 
-export declare const TyperElement: SFC<TyperElementProps>
+export declare const TyperElement: React.FC<TyperElementProps>
 
 export {}
