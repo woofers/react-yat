@@ -14,13 +14,13 @@
     "README.md"
   ],
   "scripts": {
-    "start": "yarn watch",
+    "start": "pnpm watch",
     "build:module": "microbundle --no-pkg-main --no-sourcemap --no-generateTypes --jsx React.createElement --define __isDev__=false -i src/index.js -o lib/react-yat.module.js -f es",
     "build:umd": "microbundle --no-pkg-main --no-sourcemap --no-generateTypes --jsx React.createElement --define __isDev__=false -i src/index.js -o lib/react-yat.js -f umd",
     "build:dev:module": "microbundle --no-pkg-main --no-sourcemap --no-generateTypes --jsx React.createElement --define __isDev__=true -i src/index.js -o lib/react-yat.module.dev.js -f es",
     "build:dev:umd": "microbundle --no-pkg-main --no-sourcemap --no-generateTypes --jsx React.createElement --define __isDev__=true -i src/index.js -o lib/react-yat.dev.js -f umd",
     "build:types": "cp src/index.d.ts lib/index.d.ts",
-    "build": "yarn build:dev:module && yarn build:dev:umd && yarn build:module && yarn build:umd && yarn build:types",
+    "build": "pnpm build:dev:module && pnpm build:dev:umd && pnpm build:module && pnpm build:umd && pnpm build:types",
     "clean": "rimraf lib/react-yat.js lib/react-yat.dev.js lib/react-yat.module.js lib/react-yat.module.dev.js lib/index.d.ts",
     "test": "echo \"No tests \" && exit 0"
   },
