@@ -2,12 +2,14 @@ import React from 'react'
 
 type Node = React.ReactNode | React.ReactNode[]
 
-type TyperElementProps = React.HTMLProps<HTMLSpanElement> & {
+type TyperBase = Omit<React.HTMLProps<HTMLSpanElement>, 'children' | 'prefix' | 'ref'>
+
+type TyperElementProps = TyperBase & {
   children?: Node
-  ref?: string
+  ref?: React.RefObject<HTMLSpanElement>
 }
 
-type TyperProps = React.HTMLProps<HTMLSpanElement> & {
+type TyperProps = TyperBase & {
   prefix: Node
   children: Node
   loop?: boolean
@@ -19,7 +21,7 @@ type TyperProps = React.HTMLProps<HTMLSpanElement> & {
   deleteDelay?: number
   emptyDelay?: number
   completedDelay?: number
-  ref?: string
+  ref?: React.RefObject<HTMLSpanElement>
 }
 
 export declare const Typer: React.FC<TyperProps>
