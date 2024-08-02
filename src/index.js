@@ -1,4 +1,4 @@
-import React, { Children, useState, useMemo } from 'react'
+import React, { Children, useState, useMemo, useCallback } from 'react'
 import useInterval from './use-interval'
 import useInjectStyle from './use-inject-style'
 
@@ -32,7 +32,7 @@ export const Typer = ({
   completedDelay = 3000,
   ...rest
 }) => {
-  if (__isDev__) {
+  if (__isDev__ && typeof validator === 'function') {
     const err = validator({
       prefix,
       loop,
@@ -47,7 +47,10 @@ export const Typer = ({
       completedDelay,
       ...rest
     }, 'children', Typer.name)
-    if (err) throw err
+    if (err) {
+      validator = void 0
+      throw err
+    }
   }
   const wide = useMemo(() => ({
     animation: `${animation} ${cursorDelay}s infinite`,
@@ -71,11 +74,13 @@ export const Typer = ({
     })
     return [props, items]
   }, [children])
-  const [curItem, setItem] = useState(0)
-  const [curSlice, setSlice] = useState(0)
+
+  const [state, setState] = useState({ item: 0, slice: 0 })
+  const { item: curItem, slice: curSlice } = state
   const item = items[curItem]
   const prop = props[curItem]
   const isEmpty = item.length <= 0
+  const amountOfItems = items.length
   const delay = (() => {
     if (!loop && curItem === items.length - 1 && curSlice === -item.length) return null
     if (Math.abs(curSlice) === item.length && !isEmpty) return Math.floor(completedDelay / 2)
@@ -83,18 +88,20 @@ export const Typer = ({
     if (curSlice < 0) return deleteDelay
     return typeDelay
   })()
-  useInjectStyle(style)
-  useInterval(() => {
-    setSlice(curSlice => {
-      if (item.length <= curSlice && !isEmpty) {
-        return -curSlice
+  const updateTyper = useCallback(() => {
+    setState(state => {
+      const curSlice = state.slice
+      if (amountOfItems <= curSlice && !isEmpty) {
+        return { ...state, slice: -curSlice }
       }
       else if (curSlice === -1 || isEmpty) {
-        setItem(curItem => (curItem + 1) % items.length)
+        return { item: (state.item + 1) % amountOfItems, slice: curSlice + 1 }
       }
-      return curSlice + 1
+      return { ...state, slice: curSlice + 1 }
     })
-  }, delay)
+  }, [isEmpty, amountOfItems])
+  useInjectStyle(style)
+  useInterval(updateTyper, delay)
   return (
     <span {...rest}>
       <span aria-live="polite" aria-atomic style={hidden}>
