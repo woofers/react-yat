@@ -80,7 +80,7 @@ export const Typer = ({
   const item = items[curItem]
   const prop = props[curItem]
   const isEmpty = item.length <= 0
-  const amountOfItems = items.length
+  const amountOfItems = item.length
   const delay = (() => {
     if (!loop && curItem === items.length - 1 && curSlice === -item.length) return null
     if (Math.abs(curSlice) === item.length && !isEmpty) return Math.floor(completedDelay / 2)
